@@ -11,5 +11,6 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<StudentPojo, Long> {
 
     List<StudentPojo> findByDob(Date dob);
+    List<StudentPojo> findAll();
 
 }

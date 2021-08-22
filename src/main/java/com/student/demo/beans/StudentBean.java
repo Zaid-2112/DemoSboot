@@ -9,10 +9,10 @@ import java.util.Date;
 @Data
 public class StudentBean {
 
-    public Long rollNo;
-    public String studentName;
-    public String fatherName;
-    public Date dob;
+    public Long rollno;
+    public String studentname;
+    public String fathername;
+    public Long dob;
 
 
 }

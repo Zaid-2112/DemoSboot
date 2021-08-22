@@ -1,36 +1,30 @@
 package com.student.demo.pojo;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
-
 
 @Data
 @Entity
-@Table(name="student")
+@Table(name = "student")
 public class StudentPojo {
 
-
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "rollno", nullable = false)
-    private Long rollNo;
+    @Column(name="roll_no")
+    private Long rollno;
 
-    @Column(name = "studentname", nullable = false)
-    private String studentName;
+    @Column(name = "father_name")
+    private String fathername;
 
-    @Column(name = "fathername", nullable = false)
-    private String fatherName;
+    @Column(name = "student_name")
+    private String studentname;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    @Column(name = "dob", nullable = false)
+    @Column(name = "dob")
     private Date dob;
+
 }

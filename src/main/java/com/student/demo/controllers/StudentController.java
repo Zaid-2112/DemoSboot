@@ -1,7 +1,6 @@
 package com.student.demo.controllers;
 
 import com.student.demo.beans.StudentBean;
-import com.student.demo.pojo.StudentPojo;
 import com.student.demo.services.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,23 +11,31 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/student")
-@Api(description = "This api is used to perform CRUD operations on student")
+@RequestMapping(value = "/student")
+@Api(description = "This api is used for mytest perpuse")
 public class StudentController {
 
     @Autowired
-    public StudentService studentService;
+    private StudentService studentService;
 
-
-    @ApiOperation(value = "values to add record to database", notes = "required fields")
-    @PostMapping("/addstudent")
-    public void addstudent(@RequestBody StudentBean student) {
-        studentService.addnewstudent(student);
+    @ApiOperation(value = "This api is used for test perpuse")
+    @GetMapping("/studentRecords")
+    public List<StudentBean> getStudentRecord(){
+        List<StudentBean> record = studentService.getBeans();
+        return  record;
     }
 
-    @ApiOperation(value = "values to add record to database", notes = "required fields")
-    @GetMapping("/getstudent/{pojo}")
-    public List<StudentPojo> getAllStudents(@RequestParam Date pojo) {
-        return studentService.getAllStudents(pojo);
+    @ApiOperation(value = "This api is used for test perpuse")
+    @GetMapping("/studentRecord")
+    public List<StudentBean> getStudentRecord( Long date){
+        List<StudentBean> record = studentService.getBean(date);
+        return  record;
     }
+
+    @ApiOperation(value = "This api is used to convert bean to pojo", notes = "required fields")
+    @PostMapping("/")
+    public String addStudentRecord(@RequestBody StudentBean bean){
+        return studentService.save(bean);
+    }
+
 }
