@@ -15,6 +15,9 @@ public class StudentPojo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "deleted")
+    private Boolean deleted = Boolean.FALSE;
+
     @Column(name="roll_no")
     private Long rollno;
 

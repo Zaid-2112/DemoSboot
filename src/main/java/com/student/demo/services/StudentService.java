@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -17,25 +18,26 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public List<StudentBean> getBeans() {
-        List<StudentPojo> records = studentRepository.findAll();
+        List<StudentPojo> records = studentRepository.getAll();
         List<StudentBean> response = new ArrayList<>();
-        for (StudentPojo record: records) {
+        for (StudentPojo record : records) {
             StudentBean tempData = convertPojoToBean(record);
             response.add(tempData);
         }
         return response;
     }
 
-    public List<StudentBean> getBean(Long date){
+    public List<StudentBean> getBean(Long date) {
         List<StudentPojo> records = studentRepository.findByDob(new Date(date));
         List<StudentBean> response = new ArrayList<>();
-        for (StudentPojo record: records) {
+        for (StudentPojo record : records) {
             StudentBean tempData = convertPojoToBean(record);
             response.add(tempData);
         }
         return response;
 
     }
+
     private StudentBean convertPojoToBean(StudentPojo record) {
         StudentBean response = new StudentBean();
         response.setFathername(record.getFathername());
@@ -51,12 +53,44 @@ public class StudentService {
         return "success";
     }
 
-    private StudentPojo convertBeanToPojo(StudentBean bean){
+    private StudentPojo convertBeanToPojo(StudentBean bean) {
         StudentPojo pojo = new StudentPojo();
         pojo.setFathername(bean.getFathername());
+        pojo.setRollno(bean.getRollno());
         pojo.setStudentname(bean.getStudentname());
         pojo.setDob(new Date(bean.getDob()));
         return pojo;
+    }
+
+
+    public void deleteStudent(Long studentId) {
+        studentRepository.deleteById(studentId);
+    }
+
+    public void markStudentAsDeleted(Long studentId) {
+        Optional<StudentPojo> record = studentRepository.findById(studentId);
+        StudentPojo tempRecord = new StudentPojo();
+        tempRecord.setFathername(record.get().getFathername());
+        tempRecord.setStudentname(record.get().getStudentname());
+        tempRecord.setDob(record.get().getDob());
+        tempRecord.setId(record.get().getId());
+        tempRecord.setRollno(record.get().getRollno());
+        tempRecord.setDeleted(Boolean.TRUE);
+
+        studentRepository.save(tempRecord);
+    }
+
+    public void update(Long studentId, StudentPojo pojo) {
+        StudentPojo updatepojo = studentRepository.findById(studentId).get();
+        updatepojo.setFathername(pojo.getFathername());
+        updatepojo.setStudentname(pojo.getStudentname());
+        updatepojo.setDob(pojo.getDob());
+        updatepojo.setId(pojo.getId());
+        updatepojo.setRollno(pojo.getRollno());
+
+        studentRepository.save(updatepojo);
+
+
     }
 
 }
