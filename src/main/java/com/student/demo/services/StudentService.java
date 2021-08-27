@@ -6,10 +6,7 @@ import com.student.demo.repositries.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -90,6 +87,16 @@ public class StudentService {
 
         studentRepository.save(updatepojo);
 
+
+    }
+
+    public HashMap<Date, String> getDobStudentNameHashMap() {
+        List<StudentPojo> records = studentRepository.findAll();
+        HashMap<Date, String> response = new HashMap<>();
+        for (StudentPojo record : records) {
+            response.put(record.getDob(), record.getStudentname());
+        }
+        return response;
 
     }
 

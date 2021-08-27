@@ -21,7 +21,7 @@ public class StudentPojo {
     @Column(name="roll_no")
     private Long rollno;
 
-    @Column(name = "father_name")
+    @Column(name = "father_name", nullable = true)
     private String fathername;
 
     @Column(name = "student_name")
