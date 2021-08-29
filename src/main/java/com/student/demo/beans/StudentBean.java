@@ -1,18 +1,16 @@
 package com.student.demo.beans;
 
+import com.student.demo.pojo.College;
+import com.student.demo.pojo.StudentPojo;
 import lombok.Data;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Data
 public class StudentBean {
 
-    public Long rollno;
-    public String studentname;
-    public String fathername;
+    public Long rollNo;
+    public String studentName;
+    public String fatherName;
     public Long dob;
-
+    private College college;
 
 }

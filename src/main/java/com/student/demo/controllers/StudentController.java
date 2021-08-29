@@ -6,7 +6,6 @@ import com.student.demo.services.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -57,6 +56,7 @@ public class StudentController {
     @DeleteMapping("/student/{studentId}/markForDeletion")
     public void markStudentAsDeleted(@PathVariable("studentId") Long studentId) {
         studentService.markStudentAsDeleted(studentId);
+
     }
 
     @ApiOperation(value = "This api is used for update existing  record ",
@@ -73,4 +73,5 @@ public class StudentController {
     public HashMap<Date, String> getNameAgeHashMap(){
         return studentService.getDobStudentNameHashMap();
     }
-}
+
+        }

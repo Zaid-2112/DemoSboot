@@ -10,8 +10,8 @@ import java.util.Date;
 @Table(name = "student")
 public class StudentPojo {
 
-    @Column(name = "id")
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -19,15 +19,19 @@ public class StudentPojo {
     private Boolean deleted = Boolean.FALSE;
 
     @Column(name="roll_no")
-    private Long rollno;
+    private Long rollNo;
 
     @Column(name = "father_name", nullable = true)
-    private String fathername;
+    private String fatherName;
 
     @Column(name = "student_name")
-    private String studentname;
+    private String studentName;
 
     @Column(name = "dob")
     private Date dob;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "college_id", referencedColumnName = "id")
+    private College college;
 
 }

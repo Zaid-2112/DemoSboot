@@ -16,7 +16,6 @@ public interface StudentRepository extends JpaRepository<StudentPojo, Long> {
     Optional<StudentPojo> findById(@Param("studentId") Long studentId);
 
     List<StudentPojo> findByDob(@Param("dob")  Date dob);
-
     List<StudentPojo> findAll();
 
     @Query("SELECT e FROM StudentPojo e WHERE e.deleted=false")

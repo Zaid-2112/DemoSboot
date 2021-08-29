@@ -1,6 +1,7 @@
 package com.student.demo.services;
 
 import com.student.demo.beans.StudentBean;
+import com.student.demo.pojo.College;
 import com.student.demo.pojo.StudentPojo;
 import com.student.demo.repositries.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +38,29 @@ public class StudentService {
 
     private StudentBean convertPojoToBean(StudentPojo record) {
         StudentBean response = new StudentBean();
-        response.setFathername(record.getFathername());
-        response.setStudentname(record.getStudentname());
-        response.setRollno(record.getRollno());
+        response.setFatherName(record.getFatherName());
+        response.setStudentName(record.getStudentName());
+        response.setRollNo(record.getRollNo());
         response.setDob(record.getDob().getTime());
         return response;
     }
 
     public String save(StudentBean bean) {
-        StudentPojo pojo = convertBeanToPojo(bean);
+       StudentPojo pojo = convertBeanToPojo(bean);
         studentRepository.save(pojo);
         return "success";
     }
 
     private StudentPojo convertBeanToPojo(StudentBean bean) {
         StudentPojo pojo = new StudentPojo();
-        pojo.setFathername(bean.getFathername());
-        pojo.setRollno(bean.getRollno());
-        pojo.setStudentname(bean.getStudentname());
+        pojo.setFatherName(bean.getFatherName());
+        pojo.setRollNo(bean.getRollNo());
+        pojo.setStudentName(bean.getStudentName());
         pojo.setDob(new Date(bean.getDob()));
+        pojo.getCollege();
         return pojo;
     }
+
 
 
     public void deleteStudent(Long studentId) {
@@ -67,11 +70,11 @@ public class StudentService {
     public void markStudentAsDeleted(Long studentId) {
         Optional<StudentPojo> record = studentRepository.findById(studentId);
         StudentPojo tempRecord = new StudentPojo();
-        tempRecord.setFathername(record.get().getFathername());
-        tempRecord.setStudentname(record.get().getStudentname());
+        tempRecord.setFatherName(record.get().getFatherName());
+        tempRecord.setStudentName(record.get().getStudentName());
         tempRecord.setDob(record.get().getDob());
         tempRecord.setId(record.get().getId());
-        tempRecord.setRollno(record.get().getRollno());
+        tempRecord.setRollNo(record.get().getRollNo());
         tempRecord.setDeleted(Boolean.TRUE);
 
         studentRepository.save(tempRecord);
@@ -79,11 +82,11 @@ public class StudentService {
 
     public void update(Long studentId, StudentPojo pojo) {
         StudentPojo updatepojo = studentRepository.findById(studentId).get();
-        updatepojo.setFathername(pojo.getFathername());
-        updatepojo.setStudentname(pojo.getStudentname());
+        updatepojo.setFatherName(pojo.getFatherName());
+        updatepojo.setStudentName(pojo.getStudentName());
         updatepojo.setDob(pojo.getDob());
         updatepojo.setId(pojo.getId());
-        updatepojo.setRollno(pojo.getRollno());
+        updatepojo.setRollNo(pojo.getRollNo());
 
         studentRepository.save(updatepojo);
 
@@ -94,10 +97,12 @@ public class StudentService {
         List<StudentPojo> records = studentRepository.findAll();
         HashMap<Date, String> response = new HashMap<>();
         for (StudentPojo record : records) {
-            response.put(record.getDob(), record.getStudentname());
+            response.put(record.getDob(), record.getStudentName());
         }
         return response;
 
     }
 
-}
+
+    }
+
