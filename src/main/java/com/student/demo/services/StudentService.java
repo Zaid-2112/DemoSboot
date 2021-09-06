@@ -3,10 +3,13 @@ package com.student.demo.services;
 import com.student.demo.beans.StudentBean;
 import com.student.demo.pojo.College;
 import com.student.demo.pojo.StudentPojo;
+import com.student.demo.repositries.DeviceRepository;
 import com.student.demo.repositries.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.Serializable;
 import java.util.*;
 
 @Service
@@ -15,6 +18,7 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+
     public List<StudentBean> getBeans() {
         List<StudentPojo> records = studentRepository.getAll();
         List<StudentBean> response = new ArrayList<>();
@@ -22,6 +26,17 @@ public class StudentService {
             StudentBean tempData = convertPojoToBean(record);
             response.add(tempData);
         }
+        return response;
+    }
+
+    public StudentBean  getFnameStudent(String fatherName) {
+        StudentPojo record = studentRepository.findByFatherName(fatherName);
+        StudentBean response = new StudentBean();
+        if(record !=null){
+
+            response = convertPojoToBean(record);
+        }
+
         return response;
     }
 
@@ -42,13 +57,28 @@ public class StudentService {
         response.setStudentName(record.getStudentName());
         response.setRollNo(record.getRollNo());
         response.setDob(record.getDob().getTime());
+        response.setCollege(record.getCollege());
         return response;
     }
 
-    public String save(StudentBean bean) {
-       StudentPojo pojo = convertBeanToPojo(bean);
-        studentRepository.save(pojo);
+    /*public String save(StudentPojo bean) {
+        //StudentPojo pojo = convertBeanToPojo(bean);
+        studentRepository.save(bean);
         return "success";
+    }*/
+
+
+    @Autowired
+    private DeviceRepository deviceRepository;
+
+    public StudentPojo addStudentRecord(StudentBean bean) {
+        College college = bean.getCollege();
+        deviceRepository.save(college);
+        StudentPojo pojo;
+        pojo = convertBeanToPojo(bean);
+        pojo.setCollege(college);
+        studentRepository.save(pojo);
+        return pojo;
     }
 
     private StudentPojo convertBeanToPojo(StudentBean bean) {
@@ -57,10 +87,8 @@ public class StudentService {
         pojo.setRollNo(bean.getRollNo());
         pojo.setStudentName(bean.getStudentName());
         pojo.setDob(new Date(bean.getDob()));
-        pojo.getCollege();
         return pojo;
     }
-
 
 
     public void deleteStudent(Long studentId) {
@@ -102,7 +130,4 @@ public class StudentService {
         return response;
 
     }
-
-
-    }
-
+}

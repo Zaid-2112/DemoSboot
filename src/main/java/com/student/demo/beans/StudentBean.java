@@ -11,6 +11,6 @@ public class StudentBean {
     public String studentName;
     public String fatherName;
     public Long dob;
-    private College college;
+    public College college;
 
 }

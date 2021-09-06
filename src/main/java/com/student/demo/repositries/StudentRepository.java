@@ -1,5 +1,6 @@
 package com.student.demo.repositries;
 
+import com.student.demo.pojo.College;
 import com.student.demo.pojo.StudentPojo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,8 @@ public interface StudentRepository extends JpaRepository<StudentPojo, Long> {
 
     @Query("SELECT e FROM StudentPojo e WHERE e.deleted=false")
     List<StudentPojo> getAll();
+
+    //@Query("SELECT e.device_detail_id FROM StudentPojo e WHERE e.deleted=false")
+    StudentPojo findByFatherName(String fatherName);
 
 }

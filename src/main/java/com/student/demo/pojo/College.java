@@ -1,9 +1,9 @@
 package com.student.demo.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @Entity
@@ -21,6 +21,10 @@ public class College {
     @Column(name = "college_location")
     private String collegeLocation;
 
-    //@OneToOne(mappedBy = "college")
-    //private StudentPojo studentPojo;
-   }
+/*
+    @OneToOne(mappedBy = "college")
+    @JsonBackReference
+    private StudentPojo studentPojo;
+*/
+
+}

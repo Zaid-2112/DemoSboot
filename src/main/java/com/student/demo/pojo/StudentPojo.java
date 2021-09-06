@@ -1,5 +1,7 @@
 package com.student.demo.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,7 +14,7 @@ public class StudentPojo {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "deleted")
@@ -30,8 +32,10 @@ public class StudentPojo {
     @Column(name = "dob")
     private Date dob;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch= FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "college_id", referencedColumnName = "id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
     private College college;
 
 }

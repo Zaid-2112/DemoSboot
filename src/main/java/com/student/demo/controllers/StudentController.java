@@ -1,16 +1,20 @@
 package com.student.demo.controllers;
 
 import com.student.demo.beans.StudentBean;
+import com.student.demo.pojo.College;
 import com.student.demo.pojo.StudentPojo;
+import com.student.demo.repositries.StudentRepository;
 import com.student.demo.services.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/student")
@@ -19,6 +23,9 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+
+    @Autowired
+    private StudentRepository repository;
 
     @ApiOperation(value = "This api is used for get all student records ",
             notes = "Status: Completed \nRequired Fields: * \nOptional Fields: *\nComment: **")
@@ -39,10 +46,15 @@ public class StudentController {
     @ApiOperation(value = "This api is used for post record to mysql database",
             notes = "Status: Completed \nRequired Fields: * \nOptional Fields: *\nComment: **")
     @PostMapping("/addStudentRecord")
-    public String addStudentRecord(@RequestBody StudentBean bean) {
-        return studentService.save(bean);
+    public StudentPojo addStudentRecord(@RequestBody StudentBean bean) {
+        return studentService.addStudentRecord(bean);
     }
 
+    /*@PostMapping("/addRecord")
+    public StudentPojo addStudentRecord(@RequestBody StudentPojo pojo) {
+        return repository.save(pojo);
+    }
+*/
     @ApiOperation(value = "This api is used to delete a record from database!",
             notes = "Status: Completed \nRequired Fields: * \nOptional Fields: *\nComment: **")
     @DeleteMapping("/student/{studentId}")
@@ -72,6 +84,13 @@ public class StudentController {
     @GetMapping("/getDobStudentNameHashMap")
     public HashMap<Date, String> getNameAgeHashMap(){
         return studentService.getDobStudentNameHashMap();
+    }
+
+    @GetMapping("/getfnameStudent/{fatherName}")
+    public StudentBean getFnameStudent(@PathVariable("fatherName") String fatherName){
+
+                StudentBean  response= studentService.getFnameStudent(fatherName);
+                return response;
     }
 
         }
